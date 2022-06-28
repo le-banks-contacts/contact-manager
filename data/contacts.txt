@@ -1,4 +1,3 @@
-Fred Meyer | 210-123-4567
-Joe Test | 830-123-4567
-Roberto Garcia | 830-123-9876
-Bobby Twotoes | 123-456-7890
+Fred Meyer|210-123-4567
+Joe Test|830-123-4567
+Roberto Garcia|830-123-9876
