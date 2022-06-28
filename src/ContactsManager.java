@@ -48,15 +48,18 @@ public class ContactsManager {
 		contactList = new ArrayList<>();
 		List<String> stringList = Files.readAllLines(contactPath);
 		for (int i = 0; i < stringList.size(); i += 1) {
-			System.out.println(stringList.get(i));
+			//System.out.println(stringList.get(i));
 			String[] splitList = stringList.get(i).split("\\|");
 			contactList.add(new Contact(splitList[0].trim(), splitList[1].trim()));
 		}
 	}
 
 	public static void showContacts() {
+		System.out.println();
+		System.out.println("Name | Phone number");
+		System.out.println("---------------");
 		for (Contact contacts : contactList) {
-			System.out.printf("Name %s and Ph# %s\n", contacts.getName(), contacts.getPhoneNum());
+			System.out.printf("%s | %s\n", contacts.getName(), contacts.getPhoneNum());
 		}
 	}
 

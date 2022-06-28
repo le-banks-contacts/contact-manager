@@ -1,3 +1,6 @@
 Fred Meyer|210-123-4567
 Joe Test|830-123-4567
 Roberto Garcia|830-123-9876
+Johnny Walker|543-678-0385
+Jim Beam|845-123-7431
+Jack Daniel|936-561-1240
