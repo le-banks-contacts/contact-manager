@@ -55,10 +55,17 @@ public class ContactsManager {
 
 	public static void showContacts() {
 		System.out.println();
-		System.out.println("Name | Phone number");
-		System.out.println("---------------");
+		System.out.printf("%-15s | %-15s\n", "Name", "Phone Number");
+		System.out.println("------------------------------");
 		for (Contact contacts : contactList) {
-			System.out.printf("%s | %s\n", contacts.getName(), contacts.getPhoneNum());
+			String phNum = "";
+			if (contacts.getPhoneNum().length() == 7) {
+				phNum = contacts.getPhoneNum().substring(0, 3) + "-" + contacts.getPhoneNum().substring(3);
+			}
+			if (contacts.getPhoneNum().length() == 10) {
+				phNum = contacts.getPhoneNum().substring(0, 3) + "-" + contacts.getPhoneNum().substring(3, 6) + "-" + contacts.getPhoneNum().substring(6);
+			}
+			System.out.printf("%-15s | %-15s\n", contacts.getName(), phNum);
 		}
 	}
 
@@ -74,10 +81,36 @@ public class ContactsManager {
 		Scanner in = new Scanner(System.in);
 		System.out.println("What is the contact's name?");
 		String cName = in.nextLine();
-		System.out.println("What is the contact's phone number?");
-		String cPhone = in.nextLine();
-		contactList.add(new Contact(cName.trim(), cPhone.trim()));
-		updateFile();
+		int index = -1;
+		for (int i = 0; i < contactList.size(); i++) {
+			if (contactList.get(i).getName().equalsIgnoreCase(cName)) {
+				index = i;
+				break;
+			}
+		}
+		if (index == -1) {
+			String cPhone = getValidPhNum();
+			contactList.add(new Contact(cName.trim(), cPhone.trim()));
+			updateFile();
+	} else {
+			System.out.printf("There's already a contact named %s. Do you want to overwrite it? (Yes/No)", cName);
+			boolean uChoice = yesNo();
+			if (uChoice == true) {
+				String cPhone = getValidPhNum();
+				contactList.get(index).setPhoneNum(cPhone);
+				updateFile();
+			} else {
+				System.out.println("Returning to Main Menu...");
+			}
+		}
+	}
+
+	public static boolean yesNo() {
+		System.out.println("Please input: Yes or No");
+		Scanner in = new Scanner(System.in);
+		String input = in.nextLine();
+		input = input.toLowerCase();
+		return input.equalsIgnoreCase("yes");
 	}
 
 	public static void updateFile() throws IOException{
@@ -136,6 +169,25 @@ public class ContactsManager {
 			contactList.remove(index);
 			System.out.println("Contact has been removed");
 			updateFile();
+		}
+	}
+
+	public static String getValidPhNum() {
+		long phNum = 0;
+		Scanner in = new Scanner(System.in);
+		System.out.println("Please enter a seven or ten digit phone number without dashes");
+		String input = in.nextLine();
+		try {
+			phNum = Long.parseLong(input);
+			if (input.length() == 7 || input.length() == 10) {
+				return input;
+			} else {
+				System.out.println("The number was entered incorrectly, please try again");
+				return getValidPhNum();
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("The number was entered incorrectly, please try again");
+			return getValidPhNum();
 		}
 	}
 }
