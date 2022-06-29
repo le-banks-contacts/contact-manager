@@ -14,13 +14,13 @@ public class ContactsManager {
 	static Path contactPath;
 	static List<Contact> contactList;
 
-
 	public static void main(String[] args) throws IOException {
 		createDirandFiles();
 		readFile();
-		Scanner in = new Scanner(System.in);
+		//noinspection InfiniteLoopStatement
 		while (true) {
 			buildMenu();
+			Scanner in = new Scanner(System.in);
 			String input = in.nextLine();
 			switch (input) {
 				case "1" -> showContacts();
@@ -47,9 +47,8 @@ public class ContactsManager {
 		contactPath = Paths.get("data", "contacts.txt");
 		contactList = new ArrayList<>();
 		List<String> stringList = Files.readAllLines(contactPath);
-		for (int i = 0; i < stringList.size(); i += 1) {
-			//System.out.println(stringList.get(i));
-			String[] splitList = stringList.get(i).split("\\|");
+		for (String s : stringList) {
+			String[] splitList = s.split("\\|");
 			contactList.add(new Contact(splitList[0].trim(), splitList[1].trim()));
 		}
 	}
@@ -65,7 +64,7 @@ public class ContactsManager {
 
 	public static void showContacts(int i) {
 		if (i != -1) {
-			System.out.printf("Name %s and Ph# %s\n", contactList.get(i).getName(), contactList.get(i).getPhoneNum());
+			System.out.printf("Name: %s and Ph# %s\n", contactList.get(i).getName(), contactList.get(i).getPhoneNum());
 		} else {
 			System.out.println("Contact not found.");
 		}
@@ -113,7 +112,7 @@ public class ContactsManager {
 		System.out.println("Please enter a contact name to search for");
 		String input = in.nextLine();
 		for (int i = 0; i < contactList.size(); i++)
-			if (contactList.get(i).getName().equals(input)) {
+			if (contactList.get(i).getName().equalsIgnoreCase(input)) {
 				index = i;
 				break;
 			}
@@ -127,7 +126,7 @@ public class ContactsManager {
 		System.out.println("Please enter a contact name to delete");
 		String input = in.nextLine();
 		for (int i = 0; i < contactList.size(); i++)
-			if (contactList.get(i).getName().equals(input)) {
+			if (contactList.get(i).getName().equalsIgnoreCase(input)) {
 				index = i;
 				break;
 			}
