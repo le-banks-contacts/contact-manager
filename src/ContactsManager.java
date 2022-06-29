@@ -55,8 +55,8 @@ public class ContactsManager {
 
 	public static void showContacts() {
 		System.out.println();
-		System.out.printf("%-15s | %-15s\n", "Name", "Phone Number");
-		System.out.println("------------------------------");
+		System.out.printf("\t%-15s | %-15s\n", "Name", "Phone Number");
+		System.out.println("\t------------------------------");
 		for (Contact contacts : contactList) {
 			String phNum = "";
 			if (contacts.getPhoneNum().length() == 7) {
@@ -65,13 +65,21 @@ public class ContactsManager {
 			if (contacts.getPhoneNum().length() == 10) {
 				phNum = contacts.getPhoneNum().substring(0, 3) + "-" + contacts.getPhoneNum().substring(3, 6) + "-" + contacts.getPhoneNum().substring(6);
 			}
-			System.out.printf("%-15s | %-15s\n", contacts.getName(), phNum);
+			System.out.printf("\t%-15s | %-15s\n", contacts.getName(), phNum);
 		}
 	}
 
 	public static void showContacts(int i) {
 		if (i != -1) {
-			System.out.printf("Name: %s and Ph# %s\n", contactList.get(i).getName(), contactList.get(i).getPhoneNum());
+			//System.out.printf("Name: %s and Ph# %s\n", contactList.get(i).getName(), contactList.get(i).getPhoneNum());
+			String phNum = "";
+			if (contactList.get(i).getPhoneNum().length() == 7) {
+				phNum = contactList.get(i).getPhoneNum().substring(0, 3) + "-" + contactList.get(i).getPhoneNum().substring(3);
+			}
+			if (contactList.get(i).getPhoneNum().length() == 10) {
+				phNum = contactList.get(i).getPhoneNum().substring(0, 3) + "-" + contactList.get(i).getPhoneNum().substring(3, 6) + "-" + contactList.get(i).getPhoneNum().substring(6);
+			}
+			System.out.printf("\tName: %s\n\tPhone Number: %s\n", contactList.get(i).getName(), phNum);
 		} else {
 			System.out.println("Contact not found.");
 		}
